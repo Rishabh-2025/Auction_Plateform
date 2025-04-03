@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import "tailwindcss";
+@layer base {
+    
+    body {
+     
+      background: linear-gradient(86deg, rgba(246, 244, 240), #f6f4f0);
+      overflow-x: hidden;
+      font-family: "Inter", sans-serif;
+    }
+    #root {
+      overflow-x: hidden;
+      width: 100%;
+    }
+  }

@@ -1,0 +1,49 @@
+import { config } from "dotenv";
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
+import { connection } from "./database/connection.js";
+import { errorMiddleware } from "./middlewares/error.js";
+import userRoute from "./router/userRoutes.js"
+import auctionItemRouter from "./router/auctionItemRoutes.js"
+import bidRoute from "./router/bidRoutes.js";
+import commissionRoute from "./router/commissionRouter.js";
+import categoryRoute from "./router/categoryRoutes.js";
+import messageRoute from "./router/messageRoutes.js";
+import superAdminRoute from "./router/superAdminRoutes.js";
+import { catchAsyncErrors } from "./middlewares/catchAsyncErrors.js";
+
+
+const app = express();
+
+config({
+    path:"./config/config.env"
+})
+
+app.use(cors({
+    origin:[process.env.FRONTEND_URL],
+    methods:["POST","GET","PUT","DELETE"],
+    credentials: true
+}))
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir:"/tmp",
+}));
+
+app.use('/api/v1/user',userRoute)
+app.use("/api/v1/auctionitem", auctionItemRouter);
+app.use('/api/v1/bid',bidRoute)
+app.use('/api/v1/commission',commissionRoute)
+app.use('/api/v1/category',categoryRoute)
+app.use('/api/v1/contact-us',messageRoute)
+app.use('/api/v1/admin',superAdminRoute)
+connection();
+
+app.use(errorMiddleware);
+app.use(catchAsyncErrors);
+export default app;
