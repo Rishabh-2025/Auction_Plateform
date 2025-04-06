@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, CardContent, Typography, Box, useMediaQuery, useTheme, Button } from "@mui/material";
 import { useSelector } from "react-redux";
-import SignIn from "../../pages/SignIn";
+import SignIn from "../pages/SignIn";
 
 const AuctionCard = ({ imgSrc, title, startingBid, startTime, endTime, id }) => {
   const theme = useTheme();

@@ -4,7 +4,7 @@ import { getAllAuctionItems } from "../store/slices/auctionSlice";
 import { motion } from "framer-motion";
 import { TextField, FormControlLabel, Checkbox } from "@mui/material";
 import { FaSearch } from "react-icons/fa";
-import AuctionCard from "../components/Auction/AuctionCard";
+import AuctionCard from "../custom-component/AuctionCard";
 import { fetchCategories } from "../store/slices/categorySlice";
 
 const Auction = () => {

@@ -12,6 +12,7 @@ import Auction from './pages/Auction';
 import Leaderboard from './components/Auction/LeaderBoard';
 import ContactUs from './pages/ContactUs';
 import AuctionItem from './pages/AuctionItem';
+import ViewAuctionDetails from './pages/ViewAuctionDetails';
 function App() {
   
 
@@ -29,6 +30,7 @@ function App() {
       <Route path='/contact-us' element={<ContactUs/>}/>
       <Route path='/leaderboard' element={<Leaderboard/>}/>
       <Route path='/auction/item/:id' element={<AuctionItem/>}/>
+      <Route path='/auction/details/:id' element={<ViewAuctionDetails/>}/>
     </Routes>
     <Footer/>
     <ToastContainer position='top-right' />

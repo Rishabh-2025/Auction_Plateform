@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllAuctionItems } from "../../store/slices/auctionSlice";
-import AuctionCard from "./AuctionCard";
+import AuctionCard from "../../custom-component/AuctionCard";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { motion } from "framer-motion";
