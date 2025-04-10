@@ -5,6 +5,7 @@ import CategoryCard from "./CategoryCard";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { motion } from "framer-motion";
+import Spinner from "../../custom-component/Spinner";
 
 const CategorySection = () => {
   const dispatch = useDispatch();

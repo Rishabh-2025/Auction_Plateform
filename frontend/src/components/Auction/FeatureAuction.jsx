@@ -5,6 +5,7 @@ import AuctionCard from "../../custom-component/AuctionCard";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { motion } from "framer-motion";
+import Spinner from "../../custom-component/Spinner";
 
 const FeatureAuctions = () => {
   const { allAuctions, loading } = useSelector((state) => state.auction);
