@@ -11,11 +11,12 @@ import {
 import { Bar } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAllSuperAdminSliceErrors, getMonthlyRevenue } from "../../../store/slices/superAdminSlice";
+import Spinner from "../../../custom-component/Spinner";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const PaymentGraph = () => {
-  const { monthlyRevenue } = useSelector((state) => state.superAdmin);
+  const { monthlyRevenue,loading } = useSelector((state) => state.superAdmin);
 
   const data = {
     labels: [
@@ -92,14 +93,21 @@ const PaymentGraph = () => {
 
     useEffect(() => {
     dispatch(getMonthlyRevenue());
-    // dispatch(getAllUsers());
-    // dispatch(getAllPaymentProofs());
     dispatch(clearAllSuperAdminSliceErrors());
   }, [dispatch]);
   return (
-    <div className="bg-white/70 rounded-xl shadow-md mt-20 p-5 h-screen ">
-      <Bar data={data} options={options} />
+    <>
+    
+        <h2 className="text-3xl font-bold text-center mt-20 mb-8 text-[#0099A8]">Monthly Revenue</h2>
+    <div className="bg-white/70 rounded-xl shadow-md  p-5 h-screen ">
+        {loading ? (
+          <div className="flex justify-center items-center h-60">
+          <Spinner />
+        </div>
+      ) : (
+        <Bar data={data} options={options} />)}
     </div>
+        </>
   );
 };
 

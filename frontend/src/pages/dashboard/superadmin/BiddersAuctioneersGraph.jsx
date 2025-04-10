@@ -13,6 +13,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAllSuperAdminSliceErrors, getAllUsers } from "../../../store/slices/superAdminSlice";
+import Spinner from "../../../custom-component/Spinner";
 
 ChartJS.register(
   CategoryScale,
@@ -26,19 +27,17 @@ ChartJS.register(
 );
 
 const BiddersAuctioneersGraph = () => {
-  const { totalAuctioneers, totalBidders } = useSelector(
+  const { totalAuctioneers, totalBidders,loading } = useSelector(
     (state) => state.superAdmin
   );
     const dispatch = useDispatch();
     useEffect(() => {
-    // dispatch(getMonthlyRevenue());
     dispatch(getAllUsers());
-    // dispatch(getAllPaymentProofs());
+  
     dispatch(clearAllSuperAdminSliceErrors());
   }, [dispatch]);
 
-console.log("totalAuctioneers",totalAuctioneers);
-console.log("totalBidders",totalBidders);
+
 
   const data = {
     labels: [
@@ -125,10 +124,19 @@ console.log("totalBidders",totalBidders);
     },
   };
 
-  return (
-    <div className="bg-white/70 rounded-xl shadow-md mt-20 p-5 h-screen">
-      <Line data={data} options={options} />
+  return (<>
+  
+  
+        <h2 className="text-3xl font-bold text-center mt-20  mb-8 text-[#0099A8]">Registered Users</h2>
+    <div className="bg-white/70 rounded-xl shadow-md  p-5 h-screen ">
+         {loading ? (
+           <div className="flex justify-center items-center h-60">
+                  <Spinner />
+                </div>
+              ) : (
+                <Line data={data} options={options} />)}
     </div>
+                </>
   );
 };
 

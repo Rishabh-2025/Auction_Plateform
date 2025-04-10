@@ -60,7 +60,7 @@ const CreateAuction = () => {
 
 
   return (
-    <div className="bg-white/70 border border-white/30 rounded-lg p-8 shadow-lg max-w-3xl mx-auto ">
+    <div className="bg-white/70 border border-white/30 rounded-lg p-8 shadow-lg max-w-3xl mx-auto mt-20 ">
       <h1 className="text-[#0099A8] text-3xl font-bold text-center mb-6">Create Auction</h1>
       <form className="flex flex-col gap-5" onSubmit={handleCreateAuction}>
         {/* Title & Category */}

@@ -25,7 +25,7 @@ const CreateCategories = () => {
     };
 
     return (
-        <div className="bg-white/50 border border-white/30 rounded-lg p-8 shadow-lg max-w-[60%] mx-auto mt-6">
+        <div className="bg-white/50 border border-white/30 rounded-lg p-8 shadow-lg max-w-[60%] mx-auto mt-20">
             <h3 className="text-[#0099A8] text-2xl font-semibold text-center mb-6">Create Category</h3>
 
             <form className="flex flex-col gap-5 w-full" onSubmit={handleSubmit}>

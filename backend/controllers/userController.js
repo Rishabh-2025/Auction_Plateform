@@ -1,9 +1,9 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../middlewares/error.js";
 import { User } from "../models/userSchema.js";
+import { Auction } from "../models/auctionSchema.js"
 import {v2 as cloudinary} from 'cloudinary';
 import { generateToken } from "../utils/jwtToken.js";
-
 export const register = catchAsyncErrors( async (req, res, next) => {
 
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -143,3 +143,112 @@ export const register = catchAsyncErrors( async (req, res, next) => {
       leaderboard,
     });
   });
+
+
+
+
+  export const editProfile = catchAsyncErrors(async (req, res, next) => {
+
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+  
+    if (!user) {
+      return next(new ErrorHandler("User not found.", 404));
+    }
+  
+    const {
+      userName,
+      phone,
+      address,
+      role,
+      bankAccountNumber,
+      bankAccountName,
+      bankName,
+      upiId,
+      paypalEmail,
+    } = req.body;
+
+    if (userName) user.userName = userName;
+    if (phone) user.phone = phone;
+    if (address) user.address = address;
+  
+    
+    if (role && role !== user.role) {
+      if (user.role === "Auctioneer" && role === "Bidder") {
+      
+        await Auction.deleteMany({ createdBy: userId });
+  
+        user.paymentMethods = {
+          bankTransfer: {
+            bankAccountName: "",
+            bankAccountNumber: "",
+            bankName: "",
+          },
+          upi: {
+            upiId: "",
+          },
+          paypal: {
+            paypalEmail: "",
+          },
+        };
+      }
+      user.role = role;
+    }
+  
+  
+    if (user.role === "Auctioneer") {
+      if (bankAccountNumber) user.paymentMethods.bankTransfer.bankAccountNumber = bankAccountNumber;
+      if (bankAccountName) user.paymentMethods.bankTransfer.bankAccountName = bankAccountName;
+      if (bankName) user.paymentMethods.bankTransfer.bankName = bankName;
+      if (upiId) user.paymentMethods.upi.upiId = upiId;
+      if (paypalEmail) user.paymentMethods.paypal.paypalEmail = paypalEmail;
+    }
+  
+  
+    if (req.files && req.files.profileImage) {
+      const profileImage = req.files.profileImage;
+      const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
+      if (!allowedFormats.includes(profileImage.mimetype)) {
+        return next(new ErrorHandler("File format not supported.", 400));
+      }
+  
+      
+      if (user.profileImage?.public_id) {
+        await cloudinary.uploader.destroy(user.profileImage.public_id);
+      }
+  
+      const result = await cloudinary.uploader.upload(profileImage.tempFilePath, {
+        folder: "Mern_Auction_Platform/user_image",
+      });
+  
+      user.profileImage = {
+        public_id: result.public_id,
+        url: result.secure_url,
+      };
+    }
+  
+    await user.save();
+  
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully.",
+      user,
+    });
+  });
+
+
+
+  export const getWonAuctions = catchAsyncErrors(async (req, res, next) => {
+    const userId = req.user._id;
+  
+    const wonAuctions = await Auction.find({ highestBidder: userId })
+      .populate("highestBidder", "userName email profileImage")
+      .populate("createdBy", "userName email") 
+      .sort({ endTime: -1 }); 
+  
+    res.status(200).json({
+      success: true,
+      auctions: wonAuctions,
+    });
+  });
+  

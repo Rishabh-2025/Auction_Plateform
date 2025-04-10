@@ -9,6 +9,8 @@ const userSlice = createSlice({
     isAuthenticated: false,
     user: null,
     leaderboard: [],
+    wonAuctions: [],
+
   },
   reducers: {
     registerRequest(state) {
@@ -71,6 +73,28 @@ const userSlice = createSlice({
       state.loading = false;
       state.leaderboard = [];
     },
+    editProfileRequest(state) {
+      state.loading = true;
+    },
+    editProfileSuccess(state, action) {
+      state.loading = false;
+      state.user = action.payload; 
+    },
+    editProfileFailed(state) {
+      state.loading = false;
+    }, 
+    fetchWonAuctionsRequest(state) {
+      state.loading = true;
+    },
+    fetchWonAuctionsSuccess(state, action) {
+      state.loading = false;
+      state.wonAuctions = action.payload;
+    },
+    fetchWonAuctionsFailed(state) {
+      state.loading = false;
+      state.wonAuctions = [];
+    },
+      
     clearAllErrors(state) {
       state.loading = false;
     },
@@ -168,5 +192,43 @@ export const fetchLeaderboard = () => async (dispatch) => {
     dispatch(userSlice.actions.clearAllErrors());
   }
 };
+
+
+export const editProfile = (formData) => async (dispatch) => {
+  dispatch(userSlice.actions.editProfileRequest());
+  try {
+    const response = await axios.put(
+      "http://localhost:5000/api/v1/user/me/update",
+      formData,
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+    dispatch(userSlice.actions.editProfileSuccess(response.data.user));
+    toast.success(response.data.message);
+  } catch (error) {
+    dispatch(userSlice.actions.editProfileFailed());
+    toast.error(error.response?.data?.message || "Failed to update profile.");
+  } finally {
+    dispatch(userSlice.actions.clearAllErrors());
+  }
+};
+
+export const fetchWonAuctions = () => async (dispatch) => {
+  dispatch(userSlice.actions.fetchWonAuctionsRequest());
+  try {
+    const response = await axios.get("http://localhost:5000/api/v1/user/my-won-auctions", {
+      withCredentials: true,
+    });
+    dispatch(userSlice.actions.fetchWonAuctionsSuccess(response.data.auctions));
+  } catch (error) {
+    dispatch(userSlice.actions.fetchWonAuctionsFailed());
+    toast.error(error.response?.data?.message || "Failed to fetch won auctions.");
+  } finally {
+    dispatch(userSlice.actions.clearAllErrors());
+  }
+};
+
 
 export default userSlice.reducer;

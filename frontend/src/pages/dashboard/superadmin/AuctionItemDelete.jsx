@@ -3,9 +3,10 @@ import { deleteAuctionItem } from "../../../store/slices/superAdminSlice";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import Spinner from "../../../custom-component/Spinner";
 
 const AuctionItemDelete = () => {
-    const { allAuctions } = useSelector((state) => state.auction);
+    const { allAuctions,loading } = useSelector((state) => state.auction);
     const dispatch = useDispatch();
 
     const handleAuctionDelete = (id) => {
@@ -14,7 +15,13 @@ const AuctionItemDelete = () => {
 
     return (
         <>
-            <div className="overflow-x-auto mb-10 mt-20">
+            <div className="overflow-x-auto mb-10 mt-20 ">
+            <h2 className="text-3xl font-bold text-center mb-6 text-[#0099A8]">Manage Your Auctions</h2>
+             {loading ? (
+                    <div className="flex justify-center items-center h-60">
+                      <Spinner />
+                    </div>
+                  ) : (
                 <table className="min-w-full bg-white border-gray-300 rounded-xl shadow-md">
                     <thead className="bg-[#0099A8] text-white">
                         <tr>
@@ -56,7 +63,7 @@ const AuctionItemDelete = () => {
                             </tr>
                         )}
                     </tbody>
-                </table>
+                </table>)}
             </div>
         </>
     );

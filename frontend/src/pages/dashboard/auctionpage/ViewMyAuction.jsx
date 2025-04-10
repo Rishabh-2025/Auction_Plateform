@@ -21,10 +21,8 @@ const ViewMyAuctions = () => {
 
   return (
     <>
-      <div className="w-full min-h-screen px-5 pt-24 pb-10 bg-slate-200">
-        <h1 className="text-2xl font-bold text-[#0099A8] mb-6">
-          My Auctions
-        </h1>
+      <div className="w-full min-h-screen px-5  pb-10 bg-slate-200 mt-20">
+      <h2 className="text-3xl font-bold text-center mb-6 text-[#0099A8]">My Auctions</h2>
         {loading ? (
           <Spinner />
         ) : (
@@ -47,9 +45,10 @@ const ViewMyAuctions = () => {
                 );
               })
             ) : (
-              <h3 className="text-[#666] text-xl font-semibold mb-2 min-[480px]:text-xl md:text-2xl lg:text-3xl mt-5">
-                You have not posted any auction.
-              </h3>
+              <div className="text-center  w-full">
+              <p className="text-center text-xl py-4 text-gray-500"> You have not posted any auction.</p>
+            </div>
+             
             )}{" "}
             :
           </div>

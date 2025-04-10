@@ -18,7 +18,7 @@ import {
   } from "@mui/material";
   
   const PaymentProofs = () => {
-    const { paymentProofs, singlePaymentProof } = useSelector(
+    const { paymentProofs, singlePaymentProof,loading } = useSelector(
       (state) => state.superAdmin
     );
     const [openModal, setOpenModal] = useState(false);
@@ -38,8 +38,6 @@ import {
       }
     }, [singlePaymentProof]);
     useEffect(() => {
-    // dispatch(getMonthlyRevenue());
-    // dispatch(getAllUsers());
     dispatch(getAllPaymentProofs());
     dispatch(clearAllSuperAdminSliceErrors());
   }, [dispatch]);
@@ -47,6 +45,12 @@ import {
     return (
       <>
         <div className="overflow-x-auto mt-24">
+        <h2 className="text-3xl font-bold text-center mb-6 text-[#0099A8]">Approve Payments</h2>
+        {loading ? (
+        <div className="flex justify-center items-center h-60">
+          <Spinner />
+        </div>
+      ) : (
           <table className="min-w-full mt-5 bg-slate-200 text-[#0099A8] rounded-lg">
             <thead className="bg-[#0099A8] text-white">
               <tr>
@@ -78,12 +82,13 @@ import {
                   </tr>
                 ))
               ) : (
-                <tr className="text-center text-xl text-[#0099A8] py-3">
-                  <td colSpan={3}>No payment proofs are found.</td>
-                </tr>
+                <tr>
+                <td colSpan="3" className="text-center py-4 text-gray-500">No categories found.</td>
+              </tr>
               )}
             </tbody>
-          </table>
+          </table>)}
+
         </div>
   
         <UpdatePaymentModal

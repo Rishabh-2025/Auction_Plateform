@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/slices/userSlice";
-import { FaUser, FaChartPie,FaWrench,FaCog, FaFileInvoiceDollar, FaGavel, FaEye, FaSignOutAlt,FaComments ,FaTable,FaChartBar  } from "react-icons/fa";
+import { FaUser, FaChartPie,FaWrench,FaCog, FaFileInvoiceDollar,FaTrophy,FaWallet , FaGavel, FaEye, FaSignOutAlt,FaComments ,FaTable,FaChartBar  } from "react-icons/fa";
 import CategoryIcon from '@mui/icons-material/Category';
 import Profile from "./Profile";
 import CreateCategories from './superadmin/CreateCategories'
@@ -13,9 +13,11 @@ import PaymentGraph from "./superadmin/PaymentGraph";
 import AuctionItemDelete from "./superadmin/AuctionItemDelete";
 import PaymentProof from "./superadmin/PaymentProof";
 import BidderAuction from "./superadmin/BiddersAuctioneersGraph";
-import { clearAllSuperAdminSliceErrors, getAllPaymentProofs, getAllUsers, getMonthlyRevenue } from "../../store/slices/superAdminSlice";
+
 import CategoryManage from "./superadmin/ManageCategory";
 import ManageMessages from "./superadmin/ManageMessages";
+import AuctionWon from "./bidder/AuctionWon";
+import TotalSpent from "./bidder/TotalSpent";
 
 
 
@@ -24,12 +26,7 @@ const Dashboard = () => {
   const navigateTo = useNavigate();
   const { loading } = useSelector((state) => state.superAdmin);
 
-  // useEffect(() => {
-  //   dispatch(getMonthlyRevenue());
-  //   dispatch(getAllUsers());
-  //   dispatch(getAllPaymentProofs());
-  //   dispatch(clearAllSuperAdminSliceErrors());
-  // }, []);
+
 
   const { user, isAuthenticated } = useSelector((state) => state.user);
 
@@ -39,7 +36,6 @@ const Dashboard = () => {
     }
   }, [isAuthenticated]);
 
-  // Default to "Profile" on load
   const [activeComponent, setActiveComponent] = useState("Profile");
 
   const handleLogout = () => {
@@ -47,7 +43,6 @@ const Dashboard = () => {
     navigateTo("/");
   };
 
-  // Define the menu items and corresponding components
   const menuItems = {
     auctioneer: [
       { name: "Profile", icon: <FaUser />, component: <Profile /> },
@@ -66,13 +61,16 @@ const Dashboard = () => {
       { name: "Payments Proof", icon: <FaEye />, component: <PaymentProof /> },
       { name: "Bidders", icon: <FaChartPie />, component: <BidderAuction /> },
       { name: "Revenue", icon: <FaChartBar  />, component: <PaymentGraph /> },
-
-
     ],
+    bidder:[
+      { name: "Profile", icon: <FaUser />, component: <Profile /> },
+      { name: "Won Auctions", icon: <FaTrophy />, component: <AuctionWon /> },
+      { name: "Wallet", icon: <FaWallet  />, component: <TotalSpent /> },
+    ]
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-200">
+    <div className="flex justify-center items-center  bg-gray-200">
 
       <div className="flex w-full mt-20  ">
         {/* Sidebar */}
