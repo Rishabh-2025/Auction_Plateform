@@ -41,7 +41,7 @@ app.use('/api/v1/bid',bidRoute)
 app.use('/api/v1/commission',commissionRoute)
 app.use('/api/v1/category',categoryRoute)
 app.use('/api/v1/contact-us',messageRoute)
-app.use('/api/v1/admin',superAdminRoute)
+app.use('/api/v1/superadmin',superAdminRoute)
 connection();
 
 app.use(errorMiddleware);

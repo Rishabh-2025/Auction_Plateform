@@ -1,6 +1,7 @@
 import { Message } from "../models/messageSchema.js";
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import ErrorHandler from "../middlewares/error.js";
+import { sendEmail } from "../utils/sendEmails.js";
 import mongoose from "mongoose";
 
 // Create a message
@@ -66,6 +67,48 @@ export const getMessage = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler(error.message, 500));
   }
 });
+
+
+
+export const replyToMessage = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const { reply } = req.body;
+
+  if (!reply) {
+    return next(new ErrorHandler("Reply content is required", 400));
+  }
+
+  const messageDoc = await Message.findById(id);
+
+  if (!messageDoc) {
+    return next(new ErrorHandler("Message not found", 404));
+  }
+
+  // Compose email details
+  const emailData = {
+    email: messageDoc.email,
+    subject: `Reply to your message: ${messageDoc.subject}`,
+    message: `Hi ${messageDoc.name},\n\n${reply}\n\nBest regards,\nSupport Team`,
+  };
+
+  // Send email using utility function
+  await sendEmail(emailData);
+
+  // Update message status
+  messageDoc.reply = reply;
+  messageDoc.replied = true;
+  messageDoc.repliedAt = new Date();
+  await messageDoc.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Reply sent and status updated.",
+  });
+});
+
+
+
+
 
 // Delete a message
 export const deleteMessage = catchAsyncErrors(async (req, res, next) => {

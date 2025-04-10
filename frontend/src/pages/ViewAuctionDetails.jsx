@@ -16,7 +16,7 @@ const ViewAuctionDetails = () => {
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (!isAuthenticated || user.role === "Bidder") {
+    if (!isAuthenticated || user?.role === "Bidder") {
       navigateTo("/");
     }
     if (id) {

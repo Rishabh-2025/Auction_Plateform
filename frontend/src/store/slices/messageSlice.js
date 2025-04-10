@@ -46,7 +46,9 @@ const contactSlice = createSlice({
     },
     deleteContactSuccess(state, action) {
       state.loading = false;
-      state.contacts = state.contacts.filter((contact) => contact._id !== action.payload);
+      state.contacts = state.contacts.filter(
+        (contact) => contact._id !== action.payload
+      );
       toast.success("Message deleted successfully");
     },
     deleteContactFailed(state) {
@@ -56,12 +58,17 @@ const contactSlice = createSlice({
 });
 
 // Async actions
+
 export const createContact = (data) => async (dispatch) => {
   dispatch(contactSlice.actions.createContactRequest());
   try {
-    const response = await axios.post("http://localhost:5000/api/v1/contact-us/create-message", data, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/contact-us/create-message",
+      data,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     dispatch(contactSlice.actions.createContactSuccess(response.data.contact));
   } catch (error) {
     dispatch(contactSlice.actions.createContactFailed());
@@ -72,8 +79,11 @@ export const createContact = (data) => async (dispatch) => {
 export const fetchContacts = () => async (dispatch) => {
   dispatch(contactSlice.actions.fetchContactsRequest());
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/contact-us");
-    dispatch(contactSlice.actions.fetchContactsSuccess(response.data.contacts));
+    const response = await axios.get("http://localhost:5000/api/v1/contact-us", {
+      withCredentials: true,
+    });
+    dispatch(contactSlice.actions.fetchContactsSuccess(response.data.messages));
+
   } catch (error) {
     dispatch(contactSlice.actions.fetchContactsFailed());
     toast.error("Failed to fetch messages.");
@@ -83,18 +93,43 @@ export const fetchContacts = () => async (dispatch) => {
 export const fetchContact = (id) => async (dispatch) => {
   dispatch(contactSlice.actions.fetchContactRequest());
   try {
-    const response = await axios.get(`http://localhost:5000/api/v1/contact-us/${id}`);
-    dispatch(contactSlice.actions.fetchContactSuccess(response.data.contact));
+    const response = await axios.get(
+      `http://localhost:5000/api/v1/contact-us/${id}`,
+      { withCredentials: true }
+    );
+    dispatch(contactSlice.actions.fetchContactsSuccess(response.data.messages));
+
   } catch (error) {
     dispatch(contactSlice.actions.fetchContactFailed());
     toast.error("Failed to fetch message.");
   }
 };
 
+export const replyToContact = (id, replyContent) => async (dispatch) => {
+  dispatch(contactSlice.actions.fetchContactRequest());
+  try {
+    await axios.put(
+      `http://localhost:5000/api/v1/contact-us/reply/${id}`,
+      { reply: replyContent },
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    dispatch(fetchContacts()); // refresh list
+    toast.success("Reply sent successfully.");
+  } catch (error) {
+    dispatch(contactSlice.actions.fetchContactFailed());
+    toast.error("Failed to send reply.");
+  }
+};
+
 export const deleteContact = (id) => async (dispatch) => {
   dispatch(contactSlice.actions.deleteContactRequest());
   try {
-    await axios.delete(`http://localhost:5000/api/v1/contact-us/${id}`);
+    await axios.delete(`http://localhost:5000/api/v1/contact-us/${id}`, {
+      withCredentials: true,
+    });
     dispatch(contactSlice.actions.deleteContactSuccess(id));
   } catch (error) {
     dispatch(contactSlice.actions.deleteContactFailed());

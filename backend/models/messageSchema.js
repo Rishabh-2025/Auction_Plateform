@@ -19,8 +19,20 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: [true, "Message is required"],
     },
+    reply: {
+      type: String,
+      default: "",
+    },
+    replied: {
+      type: Boolean,
+      default: false,
+    },
+    repliedAt: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
+
 
 export const Message = mongoose.model("Message", messageSchema);

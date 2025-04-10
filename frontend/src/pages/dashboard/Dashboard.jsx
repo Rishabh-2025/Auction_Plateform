@@ -1,27 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/slices/userSlice";
-import { FaUser, FaChartPie, FaFileInvoiceDollar, FaGavel, FaEye, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaChartPie,FaWrench,FaCog, FaFileInvoiceDollar, FaGavel, FaEye, FaSignOutAlt,FaComments ,FaTable,FaChartBar  } from "react-icons/fa";
 import CategoryIcon from '@mui/icons-material/Category';
 import Profile from "./Profile";
 import CreateCategories from './superadmin/CreateCategories'
 import ViewMyAuction from "./auctionpage/ViewMyAuction";
 import SubmitCommission from "./auctioner/SubmitCommission";
 import CreateAuction from "./auctionpage/CreateAuction";
+import PaymentGraph from "./superadmin/PaymentGraph";
+import AuctionItemDelete from "./superadmin/AuctionItemDelete";
+import PaymentProof from "./superadmin/PaymentProof";
+import BidderAuction from "./superadmin/BiddersAuctioneersGraph";
+import { clearAllSuperAdminSliceErrors, getAllPaymentProofs, getAllUsers, getMonthlyRevenue } from "../../store/slices/superAdminSlice";
+import CategoryManage from "./superadmin/ManageCategory";
+import ManageMessages from "./superadmin/ManageMessages";
+
 
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const navigateTo = useNavigate();
+  const { loading } = useSelector((state) => state.superAdmin);
+
+  // useEffect(() => {
+  //   dispatch(getMonthlyRevenue());
+  //   dispatch(getAllUsers());
+  //   dispatch(getAllPaymentProofs());
+  //   dispatch(clearAllSuperAdminSliceErrors());
+  // }, []);
+
+  const { user, isAuthenticated } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigateTo("/");
+    }
+  }, [isAuthenticated]);
 
   // Default to "Profile" on load
   const [activeComponent, setActiveComponent] = useState("Profile");
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate("/");
+    navigateTo("/");
   };
 
   // Define the menu items and corresponding components
@@ -30,13 +53,21 @@ const Dashboard = () => {
       { name: "Profile", icon: <FaUser />, component: <Profile /> },
       { name: "Create Auction", icon: <FaGavel />, component: <CreateAuction /> },
       { name: "View My Auctions", icon: <FaEye />, component: <ViewMyAuction /> },
-      { name: "Submit Commission", icon: <FaFileInvoiceDollar />, component: <SubmitCommission/> },
+      { name: "Submit Commission", icon: <FaFileInvoiceDollar />, component: <SubmitCommission /> },
     ],
     superadmin: [
       { name: "Profile", icon: <FaUser />, component: <Profile /> },
       { name: "Create Auction", icon: <FaGavel />, component: <CreateAuction /> },
+      { name: "Manage Auction", icon: <FaCog/>, component: <AuctionItemDelete /> },
       { name: "Create Category", icon: <CategoryIcon />, component: <CreateCategories /> },
-      { name: "View My Auctions", icon: <FaEye />, component: <ViewMyAuction /> },
+      { name: "Manage Category", icon: <FaWrench />, component: <CategoryManage /> },
+      { name: "View My Auctions", icon: <FaTable />, component: <ViewMyAuction /> },
+      { name: "Messages", icon: <FaComments  />, component: <ManageMessages /> },
+      { name: "Payments Proof", icon: <FaEye />, component: <PaymentProof /> },
+      { name: "Bidders", icon: <FaChartPie />, component: <BidderAuction /> },
+      { name: "Revenue", icon: <FaChartBar  />, component: <PaymentGraph /> },
+
+
     ],
   };
 
@@ -68,7 +99,7 @@ const Dashboard = () => {
           {/* Navigation Links */}
           <ul className="space-y-2">
             {isAuthenticated &&
-             menuItems[user?.role?.toLowerCase().replace(/\s+/g, "")]?.map((item, index) => (
+              menuItems[user?.role?.toLowerCase().replace(/\s+/g, "")]?.map((item, index) => (
                 <li key={index}>
                   <button
                     onClick={() => setActiveComponent(item.name)}
@@ -95,11 +126,14 @@ const Dashboard = () => {
         </div>
 
         {/* Main Content Area - Dynamically Rendered Component */}
-        <div className="flex-1 p-8">
-          <div className=" p-6">
-            { menuItems[user?.role?.toLowerCase().replace(/\s+/g, "")]?.find((item) => item.name === activeComponent)?.component || <Profile />}
-          </div>
-        </div>
+        {loading ?
+          <Spinner /> : (
+            <div className="flex-1 p-8">
+              <div className=" p-6">
+                {menuItems[user?.role?.toLowerCase().replace(/\s+/g, "")]?.find((item) => item.name === activeComponent)?.component || <Profile />}
+              </div>
+            </div>
+          )}
       </div>
     </div>
   );

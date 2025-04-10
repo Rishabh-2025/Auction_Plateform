@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar, CircularProgress } from "@mui/material";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const Leaderboard = () => {
-  const { loading, leaderboard } = useSelector((state) => state.user);
+  const { loading, leaderboard,isAuthenticated } = useSelector((state) => state.user);
 
 
+  const navigateTo = useNavigate();
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigateTo("/");
+    }
+  }, [isAuthenticated]);
 
   return (
     <section className="w-full h-fit px-5 py-36 text-center justify-center container flex flex-col items-center">

@@ -39,22 +39,10 @@ const Blog = () => {
 
   return (
     <section className="w-full min-h-screen px-5 py-20 flex flex-col lg:flex-row items-center gap-16">
-      {/* Image Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="w-full lg:w-1/2 flex justify-center"
-      >
-        <img
-          src="./images/blog.jpeg"
-          alt="Auction Illustration"
-          className="w-full max-w-lg h-auto rounded-xl shadow-xl object-cover"
-        />
-      </motion.div>
 
+      
       {/* Steps Section */}
-      <div className="w-full lg:w-1/2 flex flex-col gap-6">
+      <div className="w-full lg:w-1/2 flex flex-col ml-10 mt-5 gap-6">
       <motion.h1
               className="text-[#0099A8] text-3xl md:text-4xl lg:text-6xl pb-5 font-bold leading-tight"
               initial={{ opacity: 0, y: -50 }}
@@ -85,6 +73,20 @@ const Blog = () => {
           </motion.div>
         ))}
       </div>
+      {/* Image Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="w-full lg:w-1/2 flex justify-center"
+      >
+        <img
+          src="./images/blog.jpeg"
+          alt="Auction Illustration"
+          className="w-full max-w-lg h-auto rounded-xl shadow-xl object-cover"
+        />
+      </motion.div>
+
     </section>
   );
 };
