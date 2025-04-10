@@ -34,7 +34,7 @@ const FeatureAuctions = () => {
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
@@ -48,7 +48,7 @@ const FeatureAuctions = () => {
       </h3>
 
       {allAuctions.length > 0 ? (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, delay: 1 }}
@@ -66,8 +66,8 @@ const FeatureAuctions = () => {
             className="mx-auto max-w-6xl p-8"
           >
             {allAuctions.slice(0, 5).map((auction) => (
-              <motion.div 
-                key={auction._id} 
+              <motion.div
+                key={auction._id}
                 className="px-4 h-[450px]  pt-8"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -86,7 +86,9 @@ const FeatureAuctions = () => {
           </Carousel>
         </motion.div>
       ) : (
-        <p className="text-center col-span-full">No auctions available.</p>
+        <div className="flex justify-center items-center h-60">
+          <Spinner />
+        </div>
       )}
     </motion.div>
   );

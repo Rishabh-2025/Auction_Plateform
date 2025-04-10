@@ -34,7 +34,7 @@ const CategorySection = () => {
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 5 }}
@@ -48,7 +48,7 @@ const CategorySection = () => {
       </h3>
 
       {categories.length > 0 ? (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, delay: 1 }}
@@ -60,14 +60,14 @@ const CategorySection = () => {
             infiniteLoop={true}
             showThumbs={false}
             showStatus={false}
-            showIndicators ={false}
+            showIndicators={false}
             centerMode={true}
             centerSlidePercentage={slidePercentage}
             className="mx-auto max-w-6xl"
           >
             {categories.map((category) => (
-              <motion.div 
-                key={category._id} 
+              <motion.div
+                key={category._id}
                 className="px-4 h-[450px] py-16"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -79,7 +79,9 @@ const CategorySection = () => {
           </Carousel>
         </motion.div>
       ) : (
-        <p className="text-center col-span-full">No categories found.</p>
+        <div className="flex justify-center items-center h-60">
+          <Spinner />
+        </div>
       )}
     </motion.div>
   );
