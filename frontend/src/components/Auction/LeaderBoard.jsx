@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Avatar, CircularProgress } from "@mui/material";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import Spinner from "../../custom-component/Spinner";
+import { Avatar } from "@mui/material";
 
 const Leaderboard = () => {
-  const { loading, leaderboard,isAuthenticated } = useSelector((state) => state.user);
-
-
+  const { loading, leaderboard, isAuthenticated } = useSelector((state) => state.user);
   const navigateTo = useNavigate();
+
   useEffect(() => {
     if (!isAuthenticated) {
       navigateTo("/");
@@ -16,57 +16,60 @@ const Leaderboard = () => {
   }, [isAuthenticated]);
 
   return (
-    <section className="w-full h-fit px-5 py-36 text-center justify-center container flex flex-col items-center">
+    <div className="overflow-x-auto min-h-screen    mb-2 mt-28 px-4 ">
+      <h2 className="text-3xl font-bold text-center mb-6 text-[#0099A8]">Bidders Leaderboard</h2>
+
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <CircularProgress color="primary" />
+        <div className="flex justify-center items-center h-60">
+          <Spinner />
         </div>
       ) : (
-        <>
-          <motion.div
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-[#0099A8] text-2xl font-bold mb-5 min-[480px]:text-4xl md:text-6xl text-center"
-          >
-            Bidders Leaderboard
-          </motion.div>
-
-          <TableContainer component={Paper} className="shadow-lg rounded-lg overflow-hidden w-full max-w-5xl">
-            <Table>
-              <TableHead className="bg-[#0099A8]">
-                <TableRow>
-                  <TableCell className="text-white text-lg font-semibold text-center">Rank</TableCell>
-                  <TableCell className="text-white text-lg font-semibold text-center">Profile</TableCell>
-                  <TableCell className="text-white text-lg font-semibold text-center">Username</TableCell>
-                  <TableCell className="text-white text-lg font-semibold text-center">Bid Expenditure</TableCell>
-                  <TableCell className="text-white text-lg font-semibold text-center">Auctions Won</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {leaderboard.slice(0, 100).map((element, index) => (
+        <div className="max-w-7xl mx-auto rounded-xl shadow-md bg-white">
+          <table className="min-w-full rounded-xl overflow-hidden">
+            <thead className="bg-[#0099A8] text-white">
+              <tr>
+                <th className="py-3 px-4 text-center font-semibold">Rank</th>
+                <th className="py-3 px-4 text-center font-semibold">Profile</th>
+                <th className="py-3 px-4 text-center font-semibold">Username</th>
+                <th className="py-3 px-4 text-center font-semibold">Bid Expenditure</th>
+                <th className="py-3 px-4 text-center font-semibold">Auctions Won</th>
+              </tr>
+            </thead>
+            <tbody className="text-[#0099A8] font-semibold">
+              {leaderboard.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="text-center py-6 text-gray-500">
+                    No data available.
+                  </td>
+                </tr>
+              ) : (
+                leaderboard.slice(0, 100).map((element, index) => (
                   <motion.tr
                     key={element._id}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
-                    className="border-b border-gray-300 hover:bg-gray-100 transition"
+                    transition={{ duration: 0.4, delay: index * 0.02 }}
+                    className="text-center border-b border-gray-300 hover:bg-slate-100"
                   >
-                    <TableCell className="text-gray-700 font-semibold text-center">{index + 1}</TableCell>
-                    <TableCell className="text-center">
-                      <Avatar src={element.profileImage?.url} alt={element.userName} className="h-12 w-12 mx-auto" />
-                    </TableCell>
-                    <TableCell className="text-gray-700 text-center">{element.userName}</TableCell>
-                    <TableCell className="text-gray-700 text-center">${element.moneySpent}</TableCell>
-                    <TableCell className="text-gray-700 text-center">{element.auctionsWon}</TableCell>
+                    <td className="py-3 px-4">{index + 1}</td>
+                    <td className="py-3 px-4">
+                      <Avatar
+                        src={element.profileImage?.url}
+                        alt={element.userName}
+                        className="h-12 w-12 mx-auto"
+                      />
+                    </td>
+                    <td className="py-3 px-4">{element.userName}</td>
+                    <td className="py-3 px-4">₹ {element.moneySpent}</td>
+                    <td className="py-3 px-4">{element.auctionsWon}</td>
                   </motion.tr>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
-    </section>
+    </div>
   );
 };
 
