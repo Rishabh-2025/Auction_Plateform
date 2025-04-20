@@ -24,6 +24,7 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const [openSignIn, setOpenSignIn] = useState(false);
     const [openSignUp, setOpenSignUp] = useState(false);
+    
     // const [openContact, setOpenContact] = useState(false);
 
 
@@ -151,8 +152,11 @@ const Navbar = () => {
                             </button>
 
                             {/* SignIn and SignUp Modals */}
-                            <SignIn open={openSignIn} handleClose={() => setOpenSignIn(false)} />
-                            <SignUp open={openSignUp} handleClose={() => setOpenSignUp(false)} />
+                            <SignIn open={openSignIn} handleClose={() => setOpenSignIn(false)} openSignUpModal={() => setOpenSignUp(true)} />
+                            <SignUp open={openSignUp} handleClose={() => setOpenSignUp(false)} openSignInModal={() => setOpenSignIn(true)} />
+
+                            {/* <SignIn open={openSignIn} handleClose={() => setOpenSignIn(false)} /> */}
+                            {/* <SignUp open={openSignUp} handleClose={() => setOpenSignUp(false)} /> */}
 
                         </>
                     )}

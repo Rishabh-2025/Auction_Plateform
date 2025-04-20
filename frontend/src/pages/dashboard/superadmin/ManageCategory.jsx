@@ -1,6 +1,6 @@
 import { Avatar, Modal, Box, TextField, Button, Typography } from "@mui/material";
-import { deleteCategory, updateCategory } from "../../../store/slices/categorySlice";
-import React, { useState } from "react";
+import { deleteCategory, fetchCategories, updateCategory } from "../../../store/slices/categorySlice";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../../custom-component/Spinner";
 import { motion } from "framer-motion";
@@ -29,7 +29,9 @@ const ManageCategories = () => {
     dispatch(updateCategory(editData.id, updated));
     setOpen(false);
   };
-
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
   return (
     <div className="overflow-x-auto mb-10 mt-20">
         <h2 className="text-3xl font-bold text-center mb-6 text-[#0099A8]">Manage Your Categories</h2>

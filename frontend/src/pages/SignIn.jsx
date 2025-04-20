@@ -21,7 +21,7 @@ const style = {
     p: 4,
 };
 
-export default function SignIn({ open, handleClose }) {
+export default function SignIn({ open, handleClose,openSignUpModal  }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -89,6 +89,19 @@ export default function SignIn({ open, handleClose }) {
                                     {loading ? "Logging in..." : "Login"}
                                 </button>
                             </form>
+                            <p className="text-md  text-gray-500 text-center mt-6 font-semibold">
+                                Don't have an account?{" "}
+                                <span
+                                    onClick={() => {
+                                        handleClose(); // close SignIn modal
+                                        openSignUpModal(); // open SignUp modal
+                                    }}
+                                    className="text-[#095b63] cursor-pointer hover:underline font-bold"
+                                >
+                                    Register here
+                                </span>
+                            </p>
+
                         </div>
                     </div>
                 </Box>

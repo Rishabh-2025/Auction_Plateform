@@ -117,7 +117,12 @@ export const fetchCategory = (id) => async (dispatch) => {
 export const deleteCategory = (id) => async (dispatch) => {
   dispatch(categorySlice.actions.deleteCategoryRequest());
   try {
-    await axios.delete(`http://localhost:5000/api/v1/category/${id}`);
+    await axios.delete(`http://localhost:5000/api/v1/category/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+
     dispatch(categorySlice.actions.deleteCategorySuccess(id));
   } catch (error) {
     dispatch(categorySlice.actions.deleteCategoryFailed());
@@ -129,6 +134,7 @@ export const updateCategory = (id, data) => async (dispatch) => {
   dispatch(categorySlice.actions.updateCategoryRequest());
   try {
     const response = await axios.put(`http://localhost:5000/api/v1/category/${id}`, data, {
+      withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
     dispatch(categorySlice.actions.updateCategorySuccess(response.data));

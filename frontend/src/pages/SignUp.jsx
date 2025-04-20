@@ -31,7 +31,7 @@ const style = {
     p: 4,
 };
 
-export default function SignUp({ open, handleClose }) {
+export default function SignUp({ open, handleClose,openSignInModal }) {
     const [formData, setFormData] = useState({
         userName: "",
         email: "",
@@ -183,6 +183,19 @@ export default function SignUp({ open, handleClose }) {
                                     {loading ? "Registering..." : "Register"}
                                 </button>
                             </form>
+
+                            <p className="text-md  text-gray-500 text-center mt-6 font-semibold">
+                                Already have an account?{" "}
+                                <span
+                                    onClick={() => {
+                                        handleClose(); 
+                                        openSignInModal(); 
+                                    }}
+                                    className="text-[#095b63] cursor-pointer hover:underline font-bold"
+                                >
+                                    Login here
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </Box>

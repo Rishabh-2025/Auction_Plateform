@@ -5,62 +5,70 @@ import mongoose from "mongoose";
 import {v2 as cloudinary} from "cloudinary";
 
 
-export const createCategory = catchAsyncErrors(async (req, res, next) => {
-  // Check if image file is provided
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return next(new ErrorHandler("Category Image is required.", 400));
-  }
 
+export const createCategory = catchAsyncErrors(async (req, res, next) => {
+  // 1. Validate that an image file was sent
+  if (!req.files || !req.files.categoryImage) {
+    return next(new ErrorHandler("Category image is required.", 400));
+  }
   const { categoryImage } = req.files;
 
-  // Validate file format
+  // 2. Validate file format
   const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
   if (!allowedFormats.includes(categoryImage.mimetype)) {
     return next(new ErrorHandler("File format not supported.", 400));
   }
 
-  // Extract category details
+  // 3. Extract and validate text fields
   const { title, description } = req.body;
-
   if (!title || !description) {
     return next(new ErrorHandler("Category title and description are required.", 400));
   }
 
-  // Check if category already exists
-  const existingCategory = await Category.findOne({ title });
-  if (existingCategory) {
+  // 4. Prevent duplicates
+  const existing = await Category.findOne({ title });
+  if (existing) {
     return next(new ErrorHandler("Category with this title already exists.", 400));
   }
 
-  // Upload image to Cloudinary
-  const cloudinaryResponse = await cloudinary.uploader.upload(
-    categoryImage.tempFilePath,
-    {
-      folder: "Mern_Auction_Platform/category_images",
+  try {
+    // 5. Upload to Cloudinary
+    const uploadResult = await cloudinary.uploader.upload(
+      categoryImage.tempFilePath,
+      { folder: "MERN_AUCTION_PLATFORM/category_images" }
+    );
+    if (!uploadResult || uploadResult.error) {
+      console.error("Cloudinary error:", uploadResult.error || "Unknown error");
+      return next(
+        new ErrorHandler("Failed to upload category image to Cloudinary.", 500)
+      );
     }
-  );
 
-  if (!cloudinaryResponse || cloudinaryResponse.error) {
-    console.error("Cloudinary error:", cloudinaryResponse.error || "Unknown cloudinary error.");
-    return next(new ErrorHandler("Failed to upload category image to Cloudinary.", 500));
+    // 6. Create the category document
+    const category = await Category.create({
+      user: req.user._id,
+      title,
+      description,
+      categoryImage: {
+        public_id: uploadResult.public_id,
+        url: uploadResult.secure_url,
+      },
+    });
+
+    // 7. Success response
+    return res.status(201).json({
+      success: true,
+      message: "Category created successfully.",
+      category,
+    });
+  } catch (error) {
+    console.error("Error creating category:", error);
+    return next(
+      new ErrorHandler(error.message || "Failed to create category.", 500)
+    );
   }
-
-  const category = await Category.create({
-    user: req.user._id,
-    title,
-    description,
-    categoryImage: {
-      public_id: cloudinaryResponse.public_id,
-      url: cloudinaryResponse.secure_url,
-    },
-  });
-
-  res.status(201).json({
-    success: true,
-    message: "Category created successfully.",
-    category,
-  });
 });
+
 
 
 // Get all categories
