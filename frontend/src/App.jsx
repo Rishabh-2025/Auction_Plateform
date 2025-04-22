@@ -13,6 +13,7 @@ import Leaderboard from './components/Auction/LeaderBoard';
 import ContactUs from './pages/ContactUs';
 import AuctionItem from './pages/AuctionItem';
 import ViewAuctionDetails from './pages/ViewAuctionDetails';
+import PageNotFound from './layout/Pagenotfound';
 function App() {
   
 
@@ -31,6 +32,7 @@ function App() {
       <Route path='/leaderboard' element={<Leaderboard/>}/>
       <Route path='/auction/item/:id' element={<AuctionItem/>}/>
       <Route path='/auction/details/:id' element={<ViewAuctionDetails/>}/>
+      <Route path='*' element={<PageNotFound/>}/>
     </Routes>
     <Footer/>
     <ToastContainer position='top-right' />

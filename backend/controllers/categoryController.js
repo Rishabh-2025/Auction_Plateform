@@ -104,19 +104,19 @@ export const getCategory = catchAsyncErrors(async (req, res, next) => {
 // Update a category
 export const updateCategory = catchAsyncErrors(async (req, res, next) => {
     const { id } = req.params;
-    const { title } = req.body;
+    const { title, description } = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return next(new ErrorHandler("Invalid category ID format.", 400));
     }
 
-    if (!title) {
+    if (!title || !description) {
         return next(new ErrorHandler("Category title is required.", 400));
     }
 
     const updatedCategory = await Category.findByIdAndUpdate(
         id,
-        { title },
+        { title, description },
         { new: true, runValidators: true }
     );
 
