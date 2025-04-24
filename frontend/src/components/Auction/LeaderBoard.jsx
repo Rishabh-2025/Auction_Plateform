@@ -1,19 +1,22 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import Spinner from "../../custom-component/Spinner";
 import { Avatar } from "@mui/material";
+import { fetchLeaderboard } from "../../store/slices/userSlice";
 
 const Leaderboard = () => {
   const { loading, leaderboard, isAuthenticated } = useSelector((state) => state.user);
+  const dispatch = useDispatch()
   const navigateTo = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) {
       navigateTo("/");
     }
-  }, [isAuthenticated]);
+    dispatch(fetchLeaderboard());
+  }, [isAuthenticated,dispatch]);
 
   return (
     <div className="overflow-x-auto min-h-screen    mb-2 mt-28 px-4 ">

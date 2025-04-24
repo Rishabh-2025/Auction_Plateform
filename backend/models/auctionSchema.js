@@ -42,6 +42,29 @@ const auctionSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+
+  // ✅ Add this block to support Razorpay & commission tracking
+  payments: {
+    bidderPaid: {
+      type: Boolean,
+      default: false,
+    },
+    adminPaidAuctioneer: {
+      type: Boolean,
+      default: false,
+    },
+    bidderReceipt: {
+      orderId: String,
+      paymentId: String,
+      signature: String,
+      paidAt: Date,
+    },
+    adminReceipt: {
+      amountPaid: Number,
+      paidAt: Date,
+    },
+  },
+
   commissionCalculated: {
     type: Boolean,
     default: false,

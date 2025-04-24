@@ -32,6 +32,7 @@ const ManageCategories = () => {
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
+  
   return (
     <div className="overflow-x-auto mb-10 mt-20">
         <h2 className="text-3xl font-bold text-center mb-6 text-[#0099A8]">Manage Your Categories</h2>

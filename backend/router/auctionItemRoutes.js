@@ -28,7 +28,7 @@ router.get("/auction/:id", isAuthenticated, getAuctionDetails);
 router.get(
   "/myitems",
   isAuthenticated,
-  isAuthorized("Auctioneer"),
+  isAuthorized("Auctioneer", "Super Admin"),
   getMyAuctionItems
 );
 

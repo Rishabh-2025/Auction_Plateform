@@ -10,11 +10,13 @@ export const sendEmail = async ({ email, subject, message }) => {
       pass: process.env.SMTP_PASSWORD,
     },
   });
+
   const options = {
     from: process.env.SMTP_MAIL,
     to: email,
     subject: subject,
-    text: message,
+    html: message, // this is the key fix
   };
+
   await transporter.sendMail(options);
 };

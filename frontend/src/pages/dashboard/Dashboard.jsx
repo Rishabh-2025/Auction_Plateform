@@ -18,6 +18,7 @@ import CategoryManage from "./superadmin/ManageCategory";
 import ManageMessages from "./superadmin/ManageMessages";
 import AuctionWon from "./bidder/AuctionWon";
 import TotalSpent from "./bidder/TotalSpent";
+import PaymentToAuctioneer from "./superadmin/PaymentToAuctioneer";
 
 
 
@@ -58,6 +59,7 @@ const Dashboard = () => {
       { name: "Manage Category", icon: <FaWrench />, component: <CategoryManage /> },
       { name: "View My Auctions", icon: <FaTable />, component: <ViewMyAuction /> },
       { name: "Messages", icon: <FaComments  />, component: <ManageMessages /> },
+      { name: "Auctioneer Payout", icon: <FaEye />, component: <PaymentToAuctioneer /> },
       { name: "Payments Proof", icon: <FaEye />, component: <PaymentProof /> },
       { name: "Bidders", icon: <FaChartPie />, component: <BidderAuction /> },
       { name: "Revenue", icon: <FaChartBar  />, component: <PaymentGraph /> },

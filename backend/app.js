@@ -12,7 +12,11 @@ import commissionRoute from "./router/commissionRouter.js";
 import categoryRoute from "./router/categoryRoutes.js";
 import messageRoute from "./router/messageRoutes.js";
 import superAdminRoute from "./router/superAdminRoutes.js";
+import paymentRoute from "./router/paymentRoutes.js";
 import { catchAsyncErrors } from "./middlewares/catchAsyncErrors.js";
+
+import { endedAuctionCron } from "./automation/endedAuctionCron.js";
+import { verifyCommissionCron } from "./automation/verifyCommissionCron.js";
 
 
 const app = express();
@@ -35,6 +39,10 @@ app.use(fileUpload({
     tempFileDir:"/tmp",
 }));
 
+
+
+
+
 app.use('/api/v1/user',userRoute)
 app.use("/api/v1/auctionitem", auctionItemRouter);
 app.use('/api/v1/bid',bidRoute)
@@ -42,6 +50,9 @@ app.use('/api/v1/commission',commissionRoute)
 app.use('/api/v1/category',categoryRoute)
 app.use('/api/v1/contact-us',messageRoute)
 app.use('/api/v1/superadmin',superAdminRoute)
+app.use('/api/v1/payment',paymentRoute)
+endedAuctionCron();
+verifyCommissionCron();
 connection();
 
 app.use(errorMiddleware);

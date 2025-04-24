@@ -2,7 +2,7 @@ import cron from "node-cron";
 import { Auction } from "../models/auctionSchema.js";
 import { User } from "../models/userSchema.js";
 import { Bid } from "../models/bidSchema.js";
-import { sendEmail } from "../utils/sendEmail.js";
+import { sendEmail } from "../utils/sendEmails.js";
 import { calculateCommission } from "../controllers/commissionController.js";
 
 export const endedAuctionCron = () => {
@@ -21,7 +21,10 @@ export const endedAuctionCron = () => {
           auctionItem: auction._id,
           amount: auction.currentBid,
         });
+        console.log("hi",highestBidder);
+        
         const auctioneer = await User.findById(auction.createdBy);
+        console.log("auctioner",auctioneer)
         auctioneer.unpaidCommission = commissionAmount;
         if (highestBidder) {
           auction.highestBidder = highestBidder.bidder.id;
@@ -46,8 +49,27 @@ export const endedAuctionCron = () => {
             },
             { new: true }
           );
-          const subject = `Congratulations! You won the auction for ${auction.title}`;
-          const message = `Dear ${bidder.userName}, \n\nCongratulations! You have won the auction for ${auction.title}. \n\nBefore proceeding for payment contact your auctioneer via your auctioneer email:${auctioneer.email} \n\nPlease complete your payment using one of the following methods:\n\n1. **Bank Transfer**: \n- Account Name: ${auctioneer.paymentMethods.bankTransfer.bankAccountName} \n- Account Number: ${auctioneer.paymentMethods.bankTransfer.bankAccountNumber} \n- Bank: ${auctioneer.paymentMethods.bankTransfer.bankName}\n\n2. **Easypaise**:\n- You can send payment via Easypaise: ${auctioneer.paymentMethods.easypaisa.easypaisaAccountNumber}\n\n3. **PayPal**:\n- Send payment to: ${auctioneer.paymentMethods.paypal.paypalEmail}\n\n4. **Cash on Delivery (COD)**:\n- If you prefer COD, you must pay 20% of the total amount upfront before delivery.\n- To pay the 20% upfront, use any of the above methods.\n- The remaining 80% will be paid upon delivery.\n- If you want to see the condition of your auction item then send your email on this: ${auctioneer.email}\n\nPlease ensure your payment is completed by [Payment Due Date]. Once we confirm the payment, the item will be shipped to you.\n\nThank you for participating!\n\nBest regards,\nZeeshu Auction Team`;
+          const subject = `🎉 Congratulations ${bidder.userName}! You've Won the Auction for "${auction.title}"`;
+
+          const message = `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+              <h2 style="color: #0099A8;">🎉 Congratulations, ${bidder.userName}!</h2>
+              <p>You've successfully won the auction for:</p>
+              
+              <div style="border: 1px solid #eee; padding: 15px; border-radius: 10px; background-color: #f9f9f9;">
+                <img src="${auction.image}" alt="${auction.title}" style="width: 100%; max-width: 400px; border-radius: 10px;" />
+                <h3 style="margin-top: 10px;">${auction.title}</h3>
+                <p style="font-size: 18px; font-weight: bold;">Final Price: ₹${auction.currentBid}</p>
+              </div>
+          
+              <p style="margin-top: 20px;">Please stay tuned for the next steps to complete your payment and receive your item.</p>
+          
+              <p>If you have any questions, feel free to reach out to your auctioneer at: <strong>${auctioneer.email}</strong></p>
+          
+              <hr style="margin: 30px 0;">
+              <p style="font-size: 12px; color: #888;">This is an automated message from BidPalnce Auctions. Please do not reply directly to this email.</p>
+            </div>
+          `;
           console.log("SENDING EMAIL TO HIGHEST BIDDER");
           sendEmail({ email: bidder.email, subject, message });
           console.log("SUCCESSFULLY EMAIL SEND TO HIGHEST BIDDER");
