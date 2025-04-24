@@ -60,12 +60,12 @@ const ManageCategories = () => {
                   <td className="py-2 px-4 flex space-x-2 justify-center">
                     <button
                       onClick={() => handleOpenModal(cat)}
-                      className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-700 transition-all duration-300"
+                      className="bg-[#0099A8] text-white py-1 px-3 rounded-md hover:bg-[#0099B8] cursor-pointer transition-all duration-300"
                     >
                       Edit
                     </button>
                     <button
-                      className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-700 transition-all duration-300"
+                      className="bg-red-600 cursor-pointer text-white py-1 px-3 rounded-md hover:bg-red-700  cusror-pointer transition-all duration-300"
                       onClick={() => handleDelete(cat._id)}
                     >
                       Delete

@@ -10,7 +10,7 @@ const Error = () => {
       <motion.img
         src="https://media.giphy.com/media/UoeaPqYrimha6rdTFV/giphy.gif" // 404 GIF
         alt="404 Not Found"
-        className="w-80 h-80 object-contain mb-4"
+        className="w-80 h-80 object-contain mb-4 rounded-lg shoadow-lg"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -36,7 +36,7 @@ const Error = () => {
 
       <motion.button
         onClick={() => navigate("/")}
-        className="px-6 py-3 bg-[#0099A8] text-white rounded-2xl shadow-md hover:shadow-lg hover:bg-[#007c8a] transition"
+        className="px-6 py-3 bg-[#0099A8] text-white rounded-2xl cursor-pointer shadow-md hover:shadow-lg hover:bg-[#007c8a] transition"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >

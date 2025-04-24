@@ -82,9 +82,9 @@ const PaymentGraph = () => {
         },
       },
       tooltip: {
-        backgroundColor: "#0099A8",
-        titleColor: "#fff",
-        bodyColor: "#fff",
+        backgroundColor: "#E5E7EB",
+        titleColor: "black",
+        bodyColor: "black",
       },
     },
   };

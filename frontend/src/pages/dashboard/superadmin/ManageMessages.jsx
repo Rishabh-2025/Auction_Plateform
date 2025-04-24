@@ -78,7 +78,7 @@ console.log(contacts);
                   <td className="py-2 px-4 flex justify-center">
                     <button
                       onClick={() => handleOpenModal(msg)}
-                      className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-700 transition-all duration-300"
+                      className="bg-[#0099A8] text-white py-1 px-3 cursor-pointer  rounded-md hover:bg-[#0099D8] transition-all duration-300"
                     >
                       Reply
                     </button>

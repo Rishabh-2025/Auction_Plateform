@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../store/slices/userSlice";
-import { FaUser, FaChartPie,FaWrench,FaCog, FaFileInvoiceDollar,FaTrophy,FaWallet , FaGavel, FaEye, FaSignOutAlt,FaComments ,FaTable,FaChartBar  } from "react-icons/fa";
+import { FaUser, FaChartPie,FaWrench,FaCog, FaCreditCard ,FaFileInvoiceDollar,FaTrophy,FaWallet , FaGavel, FaEye, FaSignOutAlt,FaComments ,FaTable,FaChartBar  } from "react-icons/fa";
 import CategoryIcon from '@mui/icons-material/Category';
 import Profile from "./Profile";
 import CreateCategories from './superadmin/CreateCategories'
@@ -59,7 +59,7 @@ const Dashboard = () => {
       { name: "Manage Category", icon: <FaWrench />, component: <CategoryManage /> },
       { name: "View My Auctions", icon: <FaTable />, component: <ViewMyAuction /> },
       { name: "Messages", icon: <FaComments  />, component: <ManageMessages /> },
-      { name: "Auctioneer Payout", icon: <FaEye />, component: <PaymentToAuctioneer /> },
+      { name: "Auctioneer Payout", icon: <FaCreditCard  />, component: <PaymentToAuctioneer /> },
       { name: "Payments Proof", icon: <FaEye />, component: <PaymentProof /> },
       { name: "Bidders", icon: <FaChartPie />, component: <BidderAuction /> },
       { name: "Revenue", icon: <FaChartBar  />, component: <PaymentGraph /> },
@@ -103,7 +103,7 @@ const Dashboard = () => {
                 <li key={index}>
                   <button
                     onClick={() => setActiveComponent(item.name)}
-                    className={`flex items-center gap-3 px-3 py-4 rounded-md transition-all duration-200 w-full text-left
+                    className={`flex items-center gap-3 px-3 py-4 rounded-md transition-all duration-200 cursor-pointer w-full text-left
                       ${activeComponent === item.name ? "bg-[#0099A8] text-white" : "hover:bg-[#095b63] hover:text-white"}`}
                   >
                     {item.icon}
@@ -117,7 +117,7 @@ const Dashboard = () => {
           {isAuthenticated && (
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 px-3 py-4 rounded-md transition-all duration-200 bg-red-600 text-white hover:bg-red-700 mt-6 w-full"
+              className="flex items-center gap-3 px-3 py-4 cursor-pointer rounded-md transition-all duration-200 bg-red-600 text-white hover:bg-red-700 mt-6 w-full"
             >
               <FaSignOutAlt />
               <span>Logout</span>

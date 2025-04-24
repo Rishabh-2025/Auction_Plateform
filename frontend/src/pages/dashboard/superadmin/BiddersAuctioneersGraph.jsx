@@ -61,8 +61,8 @@ const BiddersAuctioneersGraph = () => {
         // borderColor: "#E2E8F0", // slate-200
         borderColor: "red", // slate-200
         backgroundColor: "#E2E8F0",
-        pointBackgroundColor: "#E2E8F0",
-        pointBorderColor: "#fff",
+        pointBackgroundColor: "red",
+        pointBorderColor: "#E2E8F0",
         borderWidth: 3,
         tension: 0.4,
       },
@@ -117,9 +117,9 @@ const BiddersAuctioneersGraph = () => {
         },
       },
       tooltip: {
-        backgroundColor: "#0099A8",
-        titleColor: "#fff",
-        bodyColor: "#fff",
+        backgroundColor: "#E5E7EB",
+        titleColor: "black",
+        bodyColor: "black",
       },
     },
   };
