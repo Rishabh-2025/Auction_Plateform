@@ -91,13 +91,13 @@ const Auction = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 2, delay: 1 }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4  md:gap-8"
             >
               {filteredAuctions.slice(0, 9).map((auction) => (
                 auction._id && (
                   <motion.div
                     key={auction._id}
-                    className="p-4"
+                    className="p-4 sm:mr-"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5 }}

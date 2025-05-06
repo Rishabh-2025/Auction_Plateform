@@ -41,7 +41,7 @@ export const initiateBidderPayment = (auctionId) => async (dispatch) => {
     dispatch(paymentSlice.actions.request());
     try {
       const res = await axios.post(
-        `http://localhost:5000/api/v1/payment/bidder/pay/${auctionId}`,
+        `https://auction-plateform-ubyc.onrender.com/api/v1/payment/bidder/pay/${auctionId}`,
         {},
         {
           withCredentials: true,
@@ -62,7 +62,7 @@ export const verifyBidderPayment = (auctionId, data) => async (dispatch) => {
   dispatch(paymentSlice.actions.request());
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/v1/payment/bidder/verify/${auctionId}`,
+      `https://auction-plateform-ubyc.onrender.com/api/v1/payment/bidder/verify/${auctionId}`,
       data,
       {
         withCredentials: true,
@@ -80,7 +80,7 @@ export const verifyBidderPayment = (auctionId, data) => async (dispatch) => {
 export const fetchBidderPayments = () => async (dispatch) => {
   dispatch(paymentSlice.actions.request());
   try {
-    const res = await axios.get("http://localhost:5000/api/v1/payment/admin/bidder-payments", {
+    const res = await axios.get("https://auction-plateform-ubyc.onrender.com/api/v1/payment/admin/bidder-payments", {
       withCredentials: true,
     });
     dispatch(paymentSlice.actions.setBidderPayments(res.data.payments));
@@ -93,7 +93,7 @@ export const fetchBidderPayments = () => async (dispatch) => {
 export const fetchAllPaymentStatuses = () => async (dispatch) => {
     dispatch(paymentSlice.actions.request());
     try {
-      const res = await axios.get("http://localhost:5000/api/v1/payment/admin/payouts", {
+      const res = await axios.get("https://auction-plateform-ubyc.onrender.com/api/v1/payment/admin/payouts", {
         withCredentials: true,
       });
       dispatch(paymentSlice.actions.setAllPayments(res.data.auctions));
@@ -108,7 +108,7 @@ export const payAuctioneer = (auctionId) => async (dispatch) => {
   dispatch(paymentSlice.actions.request());
   try {
     const res = await axios.post(
-      `http://localhost:5000/api/v1/payment/admin/pay-auctioneer/${auctionId}`,
+      `https://auction-plateform-ubyc.onrender.com/api/v1/payment/admin/pay-auctioneer/${auctionId}`,
       {},
       { withCredentials: true }
     );
@@ -123,7 +123,7 @@ export const payAuctioneer = (auctionId) => async (dispatch) => {
 export const fetchAuctioneerReceipts = () => async (dispatch) => {
   dispatch(paymentSlice.actions.request());
   try {
-    const res = await axios.get("http://localhost:5000/api/v1/payment/auctioneer/receipts", {
+    const res = await axios.get("https://auction-plateform-ubyc.onrender.com/api/v1/payment/auctioneer/receipts", {
       withCredentials: true,
     });
     dispatch(paymentSlice.actions.setAuctioneerReceipts(res.data.receipts));

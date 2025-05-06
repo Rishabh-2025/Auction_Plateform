@@ -48,7 +48,9 @@ const About = () => {
       </div>
 
       {/* Image Collage */}
-      <div className="relative w-full  sm:ml-36 sm:w-1/3 h-[700px] flex justify-center">
+      {/* Image Collage */}
+<div className="relative w-full sm:ml-36 sm:w-1/3 h-[700px] justify-center hidden lg:flex">
+
         <motion.div
           className="absolute top-0 left-2 w-60 h-60 bg-white shadow-xl rounded-xl flex items-center justify-center p-5 z-40"
           animate={{ x: [0, 10, -10, 0], y: [0, -10, 10, 0] }}

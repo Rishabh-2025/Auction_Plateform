@@ -63,7 +63,7 @@ export const createContact = (data) => async (dispatch) => {
   dispatch(contactSlice.actions.createContactRequest());
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/v1/contact-us/create-message",
+      "https://auction-plateform-ubyc.onrender.com/api/v1/contact-us/create-message",
       data,
       {
         headers: { "Content-Type": "application/json" },
@@ -79,7 +79,7 @@ export const createContact = (data) => async (dispatch) => {
 export const fetchContacts = () => async (dispatch) => {
   dispatch(contactSlice.actions.fetchContactsRequest());
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/contact-us", {
+    const response = await axios.get("https://auction-plateform-ubyc.onrender.com/api/v1/contact-us", {
       withCredentials: true,
     });
     dispatch(contactSlice.actions.fetchContactsSuccess(response.data.messages));
@@ -94,7 +94,7 @@ export const fetchContact = (id) => async (dispatch) => {
   dispatch(contactSlice.actions.fetchContactRequest());
   try {
     const response = await axios.get(
-      `http://localhost:5000/api/v1/contact-us/${id}`,
+      `https://auction-plateform-ubyc.onrender.com/api/v1/contact-us/${id}`,
       { withCredentials: true }
     );
     dispatch(contactSlice.actions.fetchContactsSuccess(response.data.messages));
@@ -109,7 +109,7 @@ export const replyToContact = (id, replyContent) => async (dispatch) => {
   dispatch(contactSlice.actions.fetchContactRequest());
   try {
     await axios.put(
-      `http://localhost:5000/api/v1/contact-us/reply/${id}`,
+      `https://auction-plateform-ubyc.onrender.com/api/v1/contact-us/reply/${id}`,
       { reply: replyContent },
       {
         withCredentials: true,
@@ -127,7 +127,7 @@ export const replyToContact = (id, replyContent) => async (dispatch) => {
 export const deleteContact = (id) => async (dispatch) => {
   dispatch(contactSlice.actions.deleteContactRequest());
   try {
-    await axios.delete(`http://localhost:5000/api/v1/contact-us/${id}`, {
+    await axios.delete(`https://auction-plateform-ubyc.onrender.com/api/v1/contact-us/${id}`, {
       withCredentials: true,
     });
     dispatch(contactSlice.actions.deleteContactSuccess(id));

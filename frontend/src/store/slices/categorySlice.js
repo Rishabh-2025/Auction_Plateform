@@ -76,7 +76,7 @@ export const createCategory = (data) => async (dispatch) => {
   dispatch(categorySlice.actions.createCategoryRequest());
   try {
    const response = await axios.post(
-      "http://localhost:5000/api/v1/category/create-category",
+      "https://auction-plateform-ubyc.onrender.com/api/v1/category/create-category",
       data,
       {
         withCredentials: true,
@@ -94,7 +94,7 @@ export const createCategory = (data) => async (dispatch) => {
 export const fetchCategories = () => async (dispatch) => {
   dispatch(categorySlice.actions.fetchCategoriesRequest());
   try {
-    const response = await axios.get("http://localhost:5000/api/v1/category");
+    const response = await axios.get("https://auction-plateform-ubyc.onrender.com/api/v1/category");
 
     dispatch(categorySlice.actions.fetchCategoriesSuccess(response.data.categories));
   } catch (error) {
@@ -106,7 +106,7 @@ export const fetchCategories = () => async (dispatch) => {
 export const fetchCategory = (id) => async (dispatch) => {
   dispatch(categorySlice.actions.fetchCategoryRequest());
   try {
-    const response = await axios.get(`http://localhost:5000/api/v1/category/${id}`);
+    const response = await axios.get(`https://auction-plateform-ubyc.onrender.com/api/v1/category/${id}`);
     dispatch(categorySlice.actions.fetchCategorySuccess(response.data));
   } catch (error) {
     dispatch(categorySlice.actions.fetchCategoryFailed());
@@ -117,7 +117,7 @@ export const fetchCategory = (id) => async (dispatch) => {
 export const deleteCategory = (id) => async (dispatch) => {
   dispatch(categorySlice.actions.deleteCategoryRequest());
   try {
-    await axios.delete(`http://localhost:5000/api/v1/category/${id}`,
+    await axios.delete(`https://auction-plateform-ubyc.onrender.com/api/v1/category/${id}`,
       {
         withCredentials: true,
       }
@@ -133,7 +133,7 @@ export const deleteCategory = (id) => async (dispatch) => {
 export const updateCategory = (id, data) => async (dispatch) => {
   dispatch(categorySlice.actions.updateCategoryRequest());
   try {
-    const response = await axios.put(`http://localhost:5000/api/v1/category/${id}`, data, {
+    const response = await axios.put(`https://auction-plateform-ubyc.onrender.com/api/v1/category/${id}`, data, {
       withCredentials: true,
       headers: { "Content-Type": "application/json" },
     });
