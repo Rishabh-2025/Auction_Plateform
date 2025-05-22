@@ -6,7 +6,7 @@ import { catchAsyncErrors } from "./catchAsyncErrors.js";
 
 export const isAuthenticated = catchAsyncErrors(async (req, res, next) => {
   const token = req.session.token;
-
+console.log(token);
   if (!token) {
     return next(new ErrorHandler("User not authenticated.", 401));
   }
