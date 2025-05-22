@@ -41,7 +41,26 @@ app.use(fileUpload({
 }));
 
 
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: "sessions",
+    }),
+    cookie: {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
+);
 
 
 app.use('/api/v1/user',userRoute)
