@@ -114,13 +114,7 @@ import { generateToken } from "../utils/jwtToken.js";
 //     generateToken(user, "Login successfully.", 200, res);
 //   });
   
-//   export const getProfile = catchAsyncErrors(async (req, res, next) => {
-//     const user = req.user;
-//     res.status(200).json({
-//       success: true,
-//       user,
-//     });
-//   });
+
 
 
   export const register = catchAsyncErrors(async (req, res, next) => {
@@ -259,7 +253,13 @@ import { generateToken } from "../utils/jwtToken.js";
   });
 
 
-
+  export const getProfile = catchAsyncErrors(async (req, res, next) => {
+    const user = req.user;
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  });
 
   export const editProfile = catchAsyncErrors(async (req, res, next) => {
 
