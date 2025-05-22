@@ -35,34 +35,6 @@ app.set('trust proxy', 1);
 
 
 
-import session from "express-session";
-import MongoStore from "connect-mongo";
-// SESSION MIDDLEWARE
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,
-      collectionName: "sessions",
-    }),
-    cookie: {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
-);
-
-// DEBUG LOGGER AFTER session is applied
-app.use((req, res, next) => {
-  console.log("Session:", req.session); // ✅ Should log an object, not undefined
-  next();
-});
-
-
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
