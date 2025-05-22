@@ -32,21 +32,12 @@ app.use(cors({
 }))
 app.set('trust proxy', 1);
 
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir:"/tmp",
-}));
+
 
 
 import session from "express-session";
 import MongoStore from "connect-mongo";
-app.use((req, res, next) => {
-  console.log("Session:", req.session);
-  next();
-});
+// SESSION MIDDLEWARE
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -65,7 +56,20 @@ app.use(
   })
 );
 
+// DEBUG LOGGER AFTER session is applied
+app.use((req, res, next) => {
+  console.log("Session:", req.session); // ✅ Should log an object, not undefined
+  next();
+});
 
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir:"/tmp",
+}));
 app.use('/api/v1/user',userRoute)
 app.use("/api/v1/auctionitem", auctionItemRouter);
 app.use('/api/v1/bid',bidRoute)
